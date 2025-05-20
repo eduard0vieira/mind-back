@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express';
-import { registerUser } from '../services/auth.service';
+import { registerUser } from '../../services/auth/register.service';
 
 export const register: RequestHandler = async (req, res, next) => {
   try {

@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import prisma from '../config/prisma';
+import prisma from '../../config/prisma';
 
 interface RegisterDTO {
   name: string;
