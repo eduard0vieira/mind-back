@@ -5,9 +5,6 @@ import prisma from '../../config/prisma';
 
 dotenv.config();
 
-const secret = process.env.JWT_SECRET || "hjasdhjlasdjlh"
-const expiresIn = process.env.JWT_EXPIRES_IN as string || '12h';
-
 interface LoginDTO {
   email: string;
   password: string;
@@ -24,13 +21,19 @@ export const loginUser = async ({ email, password }: LoginDTO) => {
   }
 
   const isMatch = await bcrypt.compare(password, user.password);
-  if (isMatch) {
+  if (!isMatch) {
     throw new Error('Credenciais inválidas.');
   }
 
+  const secret = process.env.JWT_SECRET || "fallback-secret-key";
+
+  if (!process.env.JWT_SECRET) {
+    throw new Error("JWT_SECRET não definido nas variáveis de ambiente");
+  }
+
   const token = jwt.sign(
-   { sub: user.id, email: user.email }, secret,
-   { expiresIn: "1d"},
+    { sub: user.id, email: user.email }, secret,
+    { expiresIn: "1d" },
   );
 
   return {

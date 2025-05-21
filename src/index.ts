@@ -2,7 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import dotenv from 'dotenv';
-import authRoutes from './routes/registerRoute';
+import registerRoute from './routes/registerRoute';
+import loginRoute from './routes/loginRoute';
 
 dotenv.config()
 
@@ -17,7 +18,8 @@ app.get('/', (req, res) => {
   res.send('API rodando 🚀')
 });
 
-app.use('/api/auth', authRoutes);
+app.use('/api/auth', registerRoute);
+app.use('/api/auth', loginRoute);
 
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT} ✅`);
