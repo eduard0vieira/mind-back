@@ -9,7 +9,6 @@ export interface AuthRequest extends Request {
   userId?: number;
 }
 
-// Type guard para verificar se o payload tem a estrutura esperada
 function isAuthPayload(payload: any): payload is { sub: number; email: string } {
   return (
     typeof payload === 'object' &&
@@ -22,27 +21,29 @@ export function authenticate(
   req: AuthRequest,
   res: Response,
   next: NextFunction
-) {
+): void {
   const authHeader = req.headers.authorization;
   if (!authHeader) {
-    return res.status(401).json({ error: 'Token não fornecido.' });
+    res.status(401).json({ error: 'Token não fornecido.' });
+    return;
   }
 
   const [, token] = authHeader.split(' ');
   if (!token) {
-    return res.status(401).json({ error: 'Token mal formatado.' });
+    res.status(401).json({ error: 'Token mal formatado.' });
+    return;
   }
 
   try {
     const payload = jwt.verify(token, JWT_SECRET);
-    
+
     if (isAuthPayload(payload)) {
       req.userId = payload.sub;
-      return next();
+      next();
     } else {
-      return res.status(401).json({ error: 'Token inválido: estrutura incorreta.' });
+      res.status(401).json({ error: 'Token inválido: estrutura incorreta.' });
     }
   } catch (err) {
-    return res.status(401).json({ error: 'Token inválido.' });
+    res.status(401).json({ error: 'Token inválido.' });
   }
 }
