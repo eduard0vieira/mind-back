@@ -4,6 +4,7 @@ interface ArticleInput {
   title: string;
   content: string;
   authorId: number;
+  image?: string; 
 }
 
 export const createArticleService = async (data: ArticleInput) => {
