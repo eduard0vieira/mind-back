@@ -8,7 +8,7 @@ interface RegisterDTO {
   image?: string;
 }
 
-const DEFAULT_USER_IMAGE = '/images/default-user.png';
+const DEFAULT_USER_IMAGE = '/images/user.png';
 
 export const registerUser = async ({ name, email, password, image }: RegisterDTO) => {
   const existingUser = await prisma.user.findUnique({ where: { email } });
