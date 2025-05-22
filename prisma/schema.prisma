@@ -18,6 +18,7 @@ model User {
   name      String
   email     String    @unique
   password  String
+  image     String?   @default("/images/user.png")
   articles  Article[]
   createdAt DateTime  @default(now())
 }
