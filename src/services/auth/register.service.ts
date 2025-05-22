@@ -5,9 +5,12 @@ interface RegisterDTO {
   name: string;
   email: string;
   password: string;
+  image?: string;
 }
 
-export const registerUser = async ({ name, email, password }: RegisterDTO) => {
+const DEFAULT_USER_IMAGE = '/images/default-user.png';
+
+export const registerUser = async ({ name, email, password, image }: RegisterDTO) => {
   const existingUser = await prisma.user.findUnique({ where: { email } });
 
   if (existingUser) {
@@ -21,12 +24,14 @@ export const registerUser = async ({ name, email, password }: RegisterDTO) => {
       name,
       email,
       password: hashedPassword,
+      image: image || DEFAULT_USER_IMAGE,
     },
     select: {
       id: true,
       name: true,
       email: true,
       createdAt: true,
+      image: true,
     },
   });
 
