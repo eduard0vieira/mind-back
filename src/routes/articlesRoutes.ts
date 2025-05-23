@@ -10,7 +10,7 @@ import { getAllArticlesById } from '../controllers/articleController/getAllArtic
 const router = Router();
 
 router.post('/create', authenticate, createArticle);
-router.get('/get', authenticate, getAllArticles);
+router.get('/get', getAllArticles);
 
 router.get('/:id', authenticate, getArticleById);
 router.get('/all/:id', authenticate, getAllArticlesById);
