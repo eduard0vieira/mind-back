@@ -1,32 +1,37 @@
--- Criar o banco de dados
-DROP DATABASE IF EXISTS mind_db;
-CREATE DATABASE mind_db;
-USE mind_db;
+-- Criação do banco de dados
+DROP DATABASE IF EXISTS mindDB;
+CREATE DATABASE mindDB;
+USE mindDB;
 
--- Tabela de usuários
-CREATE TABLE users (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(100) NOT NULL,
-  email VARCHAR(255) NOT NULL UNIQUE,
-  password VARCHAR(255) NOT NULL,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+-- Tabela: User
+CREATE TABLE `User` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(191) NOT NULL,
+  `email` VARCHAR(191) NOT NULL UNIQUE,
+  `password` VARCHAR(191) NOT NULL,
+  `imageProfile` VARCHAR(191) NOT NULL DEFAULT '/images/user.png',
+  `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Tabela de artigos
-CREATE TABLE articles (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  title VARCHAR(255) NOT NULL,
-  content TEXT NOT NULL,
-  image TEXT,
-  author_id INT NOT NULL,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (author_id) REFERENCES users(id) ON DELETE CASCADE
-);
+-- Tabela: Article
+CREATE TABLE `Article` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `title` VARCHAR(191) NOT NULL,
+  `content` TEXT NOT NULL,
+  `image` VARCHAR(191),
+  `authorId` INT NOT NULL,
+  `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  `updatedAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+  PRIMARY KEY (`id`),
+  KEY `authorId_idx` (`authorId`),
+  CONSTRAINT `Article_authorId_fkey` FOREIGN KEY (`authorId`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Inserir um usuário de teste (senha apenas como texto para fins de exemplo)
-INSERT INTO users (name, email, password)
-VALUES ('Teste', 'teste@gmail.com', '123456');
+-- Inserção de dados na tabela User
+INSERT INTO `User` (`name`, `email`, `password`, `imageProfile`, `createdAt`) VALUES
+('Teste', 'teste@gmail.com', '123456', '/images/user.png', NOW());
 
--- Inserir um artigo ligado ao usuário de teste (ID 1)
-INSERT INTO articles (title, content, image, author_id)
-VALUES ('Primeiro Artigo', 'Conteúdo do artigo de teste...', NULL, 1);
+-- Inserção de dados na tabela Article
+INSERT INTO `Article` (`title`, `content`, `image`, `authorId`, `createdAt`, `updatedAt`) VALUES
+('Primeiro Artigo', 'Conteúdo do artigo de teste...', NULL, 1, NOW(), NOW());

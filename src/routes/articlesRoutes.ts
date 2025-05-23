@@ -12,7 +12,7 @@ const router = Router();
 router.post('/create', authenticate, createArticle);
 router.get('/get', getAllArticles);
 
-router.get('/:id', authenticate, getArticleById);
+router.get('/:id', getArticleById);
 router.get('/all/:id', authenticate, getAllArticlesById);
 router.put('/:id', authenticate, updateArticle);
 router.delete('/:id', authenticate, deleteArticle);
