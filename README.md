@@ -62,7 +62,7 @@ Crie um arquivo `.env` na raiz com as variáveis necessárias:
 
 ```env
 DATABASE_URL="mysql://usuario:senha@localhost:3306/nome_do_banco"
-JWT_SECRET="seuSegredoSuperSecreto"
+JWT_SECRET="suaChaveSuperSecreta"
 PORT=8000
 ```
 
